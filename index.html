@@ -200,7 +200,8 @@
       transition: transform .2s, box-shadow .2s;
     }
     .cert-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(44,40,37,.07); }
-    .cert-logo { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .78rem; letter-spacing: .03em; }
+    .cert-logo { width: 64px; height: 64px; border-radius: 0; display: flex; align-items: center; justify-content: center; }
+    .cert-logo img { width: 100%; height: 100%; object-fit: contain; }
     .cert-name   { font-family: var(--serif); font-size: 1rem; color: var(--text); line-height: 1.3; }
     .cert-issuer { font-size: .78rem; color: var(--text-light); }
     .cert-status {
@@ -429,7 +430,7 @@
     <div class="certs-grid">
 
       <div class="cert-card reveal">
-        <div class="cert-logo" style="background:var(--pink-light);color:var(--pink-dark);">S+</div>
+        <div class="cert-logo"><img src="https://raw.githubusercontent.com/larixa/larixa.github.io/main/Security%2B.png" alt="CompTIA Security+"></div>
         <div>
           <div class="cert-name">CompTIA Security+</div>
           <div class="cert-issuer">CompTIA · SY0-701</div>
@@ -438,7 +439,7 @@
       </div>
 
       <div class="cert-card reveal">
-        <div class="cert-logo" style="background:var(--blue-light);color:var(--blue-dark);">SC-900</div>
+        <div class="cert-logo"><img src="https://raw.githubusercontent.com/larixa/larixa.github.io/main/SC-900.png" alt="SC-900"></div>
         <div>
           <div class="cert-name">Security, Compliance &amp; Identity Fundamentals</div>
           <div class="cert-issuer">Microsoft</div>
@@ -447,7 +448,7 @@
       </div>
 
       <div class="cert-card reveal">
-        <div class="cert-logo" style="background:var(--blue-light);color:var(--blue-dark);">MS-900</div>
+        <div class="cert-logo"><img src="https://raw.githubusercontent.com/larixa/larixa.github.io/main/MS-900.png" alt="MS-900"></div>
         <div>
           <div class="cert-name">Microsoft 365 Fundamentals</div>
           <div class="cert-issuer">Microsoft</div>
@@ -456,7 +457,7 @@
       </div>
 
       <div class="cert-card reveal">
-        <div class="cert-logo" style="background:var(--yellow-light);color:var(--yellow-dark);">ITIL</div>
+        <div class="cert-logo"><img src="https://raw.githubusercontent.com/larixa/larixa.github.io/main/ITIL%204.png" alt="ITIL 4 Foundation"></div>
         <div>
           <div class="cert-name">ITIL 4 Foundation</div>
           <div class="cert-issuer">PeopleCert · Axelos</div>
