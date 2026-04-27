@@ -217,10 +217,12 @@
       padding: 2rem 2.5rem; display: flex; align-items: flex-start; gap: 1.5rem; max-width: 700px;
     }
     .edu-icon {
-      width: 52px; height: 52px; border-radius: 14px;
-      background: var(--blue-light); display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem; flex-shrink: 0;
+      width: 72px; height: 72px; border-radius: 14px;
+      background: #fff; border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; flex-shrink: 0; padding: 6px;
     }
+    .edu-icon img { width: 100%; height: 100%; object-fit: contain; }
     .edu-degree      { font-family: var(--serif); font-size: 1.2rem; margin-bottom: .3rem; }
     .edu-institution { font-size: .9rem; color: var(--blue-dark); font-weight: 500; margin-bottom: .4rem; }
     .edu-desc        { font-size: .85rem; color: var(--text-mid); line-height: 1.6; }
@@ -475,7 +477,7 @@
     <div class="section-eyebrow reveal"><span class="eyebrow-line"></span><span class="eyebrow-text">Formação</span></div>
     <h2 class="section-title reveal">Educação</h2>
     <div class="edu-card reveal">
-      <div class="edu-icon">🎓</div>
+      <div class="edu-icon"><img src="https://raw.githubusercontent.com/larixa/larixa.github.io/main/Campus%20Natal-Central%20-%20Logo_Color%20Vert.png" alt="IFRN"></div>
       <div>
         <div class="edu-degree">Tecnólogo em Redes de Computadores</div>
         <div class="edu-institution">Instituto Federal do Rio Grande do Norte — IFRN</div>
