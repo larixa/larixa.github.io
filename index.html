@@ -534,24 +534,20 @@
 
 <!-- CV DOWNLOAD MODAL -->
 <div id="cv-modal" style="display:none;position:fixed;inset:0;z-index:999;align-items:center;justify-content:center;background:rgba(44,40,37,0.5);backdrop-filter:blur(4px);">
-  <div style="background:#fff;border-radius:20px;padding:2.5rem;max-width:420px;width:90%;box-shadow:0 24px 60px rgba(44,40,37,0.18);position:relative;animation:fadeUp .3s forwards;">
+  <div style="background:#fff;border-radius:20px;padding:2.5rem;max-width:440px;width:90%;box-shadow:0 24px 60px rgba(44,40,37,0.18);position:relative;animation:fadeUp .3s forwards;">
 
-    <!-- close -->
     <button onclick="closeCVModal()" style="position:absolute;top:1rem;right:1.2rem;background:none;border:none;font-size:1.3rem;color:var(--text-light);cursor:pointer;line-height:1;">✕</button>
 
-    <!-- icon -->
     <div style="width:56px;height:56px;border-radius:14px;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin-bottom:1.2rem;">🔐</div>
 
-    <!-- title -->
     <h2 style="font-family:var(--serif);font-size:1.4rem;color:var(--text);margin-bottom:.5rem;" id="modal-title">Digitally Signed CV</h2>
 
-    <!-- description -->
     <p style="font-size:.88rem;color:var(--text-mid);line-height:1.7;margin-bottom:1.5rem;" id="modal-desc">
-      This document has been digitally signed via <strong>gov.br</strong>, certified by the <strong>ICP-Brasil</strong> Public Key Infrastructure — the Brazilian government's official digital certification authority.
+      This document has been digitally signed via <strong>gov.br</strong>, certified by the <strong>ICP-Brasil</strong> Public Key Infrastructure. Your email and IP will be recorded as a traceability measure in accordance with GDPR.
     </p>
 
     <!-- info cards -->
-    <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.8rem;">
+    <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.5rem;">
       <div style="display:flex;align-items:flex-start;gap:.8rem;padding:.8rem 1rem;background:var(--bg2);border-radius:10px;border:1px solid var(--border);">
         <span style="font-size:1rem;flex-shrink:0;">✅</span>
         <div>
@@ -581,18 +577,32 @@
       <span style="font-size:.75rem;font-weight:600;color:var(--green-dark);" id="modal-badge">ICP-Brasil Certified · gov.br Digital Signature</span>
     </div>
 
+    <!-- email input -->
+    <div style="margin-bottom:1rem;">
+      <label style="display:block;font-size:.76rem;font-weight:600;color:var(--text-mid);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.4rem;" id="modal-email-label">Your Email</label>
+      <input type="email" id="modal-email-input" placeholder="email@example.com"
+        style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:.75rem 1rem;font-family:var(--sans);font-size:.9rem;outline:none;transition:border-color .2s;"
+        onfocus="this.style.borderColor='var(--pink)'" onblur="this.style.borderColor='var(--border)'">
+      <p id="modal-consent" style="font-size:.72rem;color:var(--text-light);margin-top:.4rem;line-height:1.5;">
+        By downloading, you agree that your email and IP address will be recorded for document traceability purposes in accordance with GDPR / LGPD.
+      </p>
+      <p id="modal-error" style="font-size:.78rem;color:#C0392B;margin-top:.4rem;display:none;">Please enter a valid email address.</p>
+    </div>
+
     <!-- actions -->
     <div style="display:flex;gap:.8rem;">
-      <a id="modal-download-btn"
-         href="https://raw.githubusercontent.com/larixa/larixa.github.io/main/CV_Larissa%20Paiva%202026.pdf"
-         download="CV_Larissa_Paiva_2026.pdf"
-         onclick="closeCVModal()"
-         style="flex:1;text-align:center;background:var(--text);color:#fff;padding:.75rem 1rem;border-radius:99px;font-family:var(--sans);font-size:.85rem;font-weight:600;text-decoration:none;transition:all .2s;"
-         data-en="⬇ Download CV" data-pt="⬇ Baixar CV">⬇ Download CV</a>
+      <button id="modal-download-btn" onclick="handleCVDownload()"
+        style="flex:1;text-align:center;background:var(--text);color:#fff;padding:.75rem 1rem;border-radius:99px;font-family:var(--sans);font-size:.85rem;font-weight:600;border:none;cursor:pointer;transition:all .2s;"
+        data-en="⬇ Download CV" data-pt="⬇ Baixar CV">⬇ Download CV</button>
       <button onclick="closeCVModal()"
-         style="padding:.75rem 1.2rem;border-radius:99px;border:1.5px solid var(--border);background:transparent;font-family:var(--sans);font-size:.85rem;font-weight:600;color:var(--text-mid);cursor:pointer;transition:all .2s;"
-         data-en="Close" data-pt="Fechar">Close</button>
+        style="padding:.75rem 1.2rem;border-radius:99px;border:1.5px solid var(--border);background:transparent;font-family:var(--sans);font-size:.85rem;font-weight:600;color:var(--text-mid);cursor:pointer;"
+        data-en="Close" data-pt="Fechar">Close</button>
     </div>
+
+    <!-- loading state -->
+    <p id="modal-loading" style="display:none;text-align:center;font-size:.85rem;color:var(--text-mid);margin-top:1rem;">
+      ⏳ <span id="modal-loading-text">Preparing your personalised CV...</span>
+    </p>
 
   </div>
 </div>
@@ -609,23 +619,72 @@
     const m = document.getElementById('cv-modal');
     m.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+    document.getElementById('modal-email-input').value = '';
+    document.getElementById('modal-error').style.display = 'none';
+    document.getElementById('modal-loading').style.display = 'none';
   }
   function closeCVModal() {
-    const m = document.getElementById('cv-modal');
-    m.style.display = 'none';
+    document.getElementById('cv-modal').style.display = 'none';
     document.body.style.overflow = '';
   }
-  // Close on backdrop click
   document.getElementById('cv-modal').addEventListener('click', function(e) {
     if (e.target === this) closeCVModal();
   });
+
+  async function handleCVDownload() {
+    const email = document.getElementById('modal-email-input').value.trim();
+    const errorEl = document.getElementById('modal-error');
+    const loadingEl = document.getElementById('modal-loading');
+    const btnEl = document.getElementById('modal-download-btn');
+
+    // Validate email
+    if (!email || !email.includes('@') || !email.includes('.')) {
+      errorEl.style.display = 'block';
+      return;
+    }
+    errorEl.style.display = 'none';
+
+    // Show loading
+    btnEl.disabled = true;
+    btnEl.style.opacity = '0.6';
+    loadingEl.style.display = 'block';
+
+    try {
+      const response = await fetch('/api/download-cv', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) throw new Error('Server error');
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'CV_Larissa_Paiva_2026.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      closeCVModal();
+
+    } catch (err) {
+      loadingEl.innerHTML = currentLang === 'pt'
+        ? '❌ Erro ao gerar o CV. Tenta novamente.'
+        : '❌ Error generating CV. Please try again.';
+    } finally {
+      btnEl.disabled = false;
+      btnEl.style.opacity = '1';
+    }
+  }
 
   // LANGUAGE TOGGLE
   let currentLang = 'en';
   const translations = {
     en: {
       'modal-title': 'Digitally Signed CV',
-      'modal-desc': 'This document has been digitally signed via <strong>gov.br</strong>, certified by the <strong>ICP-Brasil</strong> Public Key Infrastructure — the Brazilian government\'s official digital certification authority.',
+      'modal-desc': 'This document has been digitally signed via <strong>gov.br</strong>, certified by the <strong>ICP-Brasil</strong> Public Key Infrastructure. Your email and IP will be recorded as a traceability measure in accordance with GDPR.',
       'modal-integrity-title': 'Integrity',
       'modal-integrity-desc': 'The document has not been altered since it was signed. Any modification invalidates the signature.',
       'modal-auth-title': 'Authenticity',
@@ -633,10 +692,13 @@
       'modal-nonrep-title': 'Non-Repudiation',
       'modal-nonrep-desc': 'The author cannot deny having signed and issued this document.',
       'modal-badge': 'ICP-Brasil Certified · gov.br Digital Signature',
+      'modal-email-label': 'Your Email',
+      'modal-consent': 'By downloading, you agree that your email and IP address will be recorded for document traceability purposes in accordance with GDPR / LGPD.',
+      'modal-loading-text': 'Preparing your personalised CV...',
     },
     pt: {
       'modal-title': 'CV Assinado Digitalmente',
-      'modal-desc': 'Este documento foi assinado digitalmente via <strong>gov.br</strong>, certificado pela Infraestrutura de Chaves Públicas <strong>ICP-Brasil</strong> — a autoridade oficial de certificação digital do governo brasileiro.',
+      'modal-desc': 'Este documento foi assinado digitalmente via <strong>gov.br</strong>, certificado pela Infraestrutura de Chaves Públicas <strong>ICP-Brasil</strong>. O seu email e IP serão registados como medida de rastreabilidade em conformidade com o RGPD.',
       'modal-integrity-title': 'Integridade',
       'modal-integrity-desc': 'O documento não foi alterado desde que foi assinado. Qualquer modificação invalida a assinatura.',
       'modal-auth-title': 'Autenticidade',
@@ -644,6 +706,9 @@
       'modal-nonrep-title': 'Não-Repúdio',
       'modal-nonrep-desc': 'A autora não pode negar ter assinado e emitido este documento.',
       'modal-badge': 'Certificado ICP-Brasil · Assinatura Digital gov.br',
+      'modal-email-label': 'O seu Email',
+      'modal-consent': 'Ao fazer o download, concorda que o seu email e endereço IP serão registados para fins de rastreabilidade do documento, em conformidade com o RGPD / LGPD.',
+      'modal-loading-text': 'A preparar o seu CV personalizado...',
     }
   };
 
