@@ -5,6 +5,10 @@ const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY;
 const CV_URL = 'https://raw.githubusercontent.com/larixa/larixa.github.io/main/CV_Larissa%20Paiva%202026.pdf';
 
+// Rate limit: max 3 downloads per IP per hour
+const RATE_LIMIT_MAX = 3;
+const RATE_LIMIT_WINDOW_MINUTES = 60;
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -24,22 +28,56 @@ module.exports = async function handler(req, res) {
     'Unknown';
 
   const userAgent = req.headers['user-agent'] || 'Unknown';
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // ── RATE LIMITING ──────────────────────────────────────
+  try {
+    const windowStart = new Date(Date.now() - RATE_LIMIT_WINDOW_MINUTES * 60 * 1000).toISOString();
+
+    const { count, error: countError } = await supabase
+      .from('cv_downloads')
+      .select('*', { count: 'exact', head: true })
+      .eq('ip_address', ip)
+      .gte('created_at', windowStart);
+
+    if (countError) {
+      console.error('Rate limit check error:', countError);
+    } else if (count >= RATE_LIMIT_MAX) {
+      // Log the blocked attempt
+      await supabase.from('cv_downloads').insert([{
+        email,
+        ip_address: ip,
+        user_agent: userAgent,
+        blocked: true,
+        block_reason: `Rate limit exceeded: ${count} downloads in ${RATE_LIMIT_WINDOW_MINUTES} minutes`
+      }]);
+
+      res.setHeader('Retry-After', String(RATE_LIMIT_WINDOW_MINUTES * 60));
+      return res.status(429).json({
+        error: 'Too many requests. You have reached the download limit. Please try again later.',
+        retry_after_minutes: RATE_LIMIT_WINDOW_MINUTES,
+        downloads_in_window: count
+      });
+    }
+  } catch (err) {
+    console.error('Rate limit error:', err);
+    // Don't block if rate limit check fails — fail open
+  }
 
   try {
-    // 1. Save to Supabase
-    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    // ── LOG TO SUPABASE ─────────────────────────────────
     const { error: dbError } = await supabase
       .from('cv_downloads')
-      .insert([{ email, ip_address: ip, user_agent: userAgent }]);
+      .insert([{ email, ip_address: ip, user_agent: userAgent, blocked: false }]);
 
-    if (dbError) console.error('Supabase error:', dbError);
+    if (dbError) console.error('Supabase insert error:', dbError);
 
-    // 2. Fetch original PDF
+    // ── FETCH ORIGINAL PDF ──────────────────────────────
     const pdfResponse = await fetch(CV_URL);
     if (!pdfResponse.ok) throw new Error('Failed to fetch CV PDF');
     const pdfBuffer = await pdfResponse.arrayBuffer();
 
-    // 3. Add watermark
+    // ── ADD WATERMARK ───────────────────────────────────
     const pdfDoc = await PDFDocument.load(pdfBuffer);
     const font = await pdfDoc.embedFont(StandardFonts.HelveticaOblique);
     const pages = pdfDoc.getPages();
@@ -62,7 +100,7 @@ module.exports = async function handler(req, res) {
 
     const watermarkedBytes = await pdfDoc.save();
 
-    // 4. Return PDF
+    // ── RETURN PDF ──────────────────────────────────────
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', 'attachment; filename="CV_Larissa_Paiva_2026.pdf"');
     res.setHeader('Content-Length', watermarkedBytes.length);
