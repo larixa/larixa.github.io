@@ -274,6 +274,38 @@
     }
     footer strong { color: rgba(255,255,255,.85); }
 
+    /* EXPERIENCE */
+    #experience { background: var(--bg2); }
+    .exp-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .exp-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 1.8rem 2rem; display: grid; grid-template-columns: 1fr auto;
+      gap: 0.5rem 2rem; transition: transform .2s, box-shadow .2s;
+    }
+    .exp-card:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(44,40,37,.07); }
+    .exp-header { display: flex; align-items: flex-start; gap: 1rem; grid-column: 1 / -1; }
+    .exp-company-icon {
+      width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; font-weight: 700;
+    }
+    .exp-title { font-family: var(--serif); font-size: 1.1rem; color: var(--text); margin-bottom: .15rem; }
+    .exp-company { font-size: .85rem; font-weight: 600; color: var(--pink-dark); margin-bottom: .15rem; }
+    .exp-meta { font-size: .78rem; color: var(--text-light); }
+    .exp-period {
+      font-size: .72rem; font-weight: 600; color: var(--text-light);
+      background: var(--bg2); border: 1px solid var(--border);
+      padding: .25rem .7rem; border-radius: 99px; white-space: nowrap;
+      align-self: flex-start; margin-top: .25rem;
+    }
+    .exp-activities { grid-column: 1 / -1; display: flex; flex-direction: column; gap: .45rem; margin-top: .5rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+    .exp-activity { display: flex; align-items: flex-start; gap: .6rem; font-size: .87rem; color: var(--text-mid); line-height: 1.5; }
+    .exp-activity::before { content: '▸'; color: var(--pink); font-size: .75rem; margin-top: 3px; flex-shrink: 0; }
+    .exp-tags { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .75rem; }
+    .exp-tag { font-size: .72rem; font-weight: 500; padding: .2rem .65rem; border-radius: 99px; background: var(--pink-light); color: var(--pink-dark); border: 1px solid var(--pink); }
+    .exp-tag-blue { background: var(--blue-light); color: var(--blue-dark); border-color: var(--blue); }
+    .exp-tag-yellow { background: var(--yellow-light); color: var(--yellow-dark); border-color: var(--yellow); }
+
     /* ANIMATIONS */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(18px); }
@@ -299,6 +331,7 @@
   <span class="nav-logo">Larissa Paiva</span>
   <ul class="nav-links">
     <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experiência</a></li>
     <li><a href="#certs">Certificações</a></li>
     <li><a href="#education">Formação</a></li>
     <li><a href="#contact">Contato</a></li>
@@ -417,6 +450,143 @@
           <div class="skill-item"><span class="skill-dot dot-green"></span>Segurança de perímetro e firewall</div>
           <div class="skill-item"><span class="skill-dot dot-green"></span>Administração e monitoramento de rede</div>
           <div class="skill-item"><span class="skill-dot dot-green"></span>Microsoft 365 e produtividade em nuvem</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal"><span class="eyebrow-line"></span><span class="eyebrow-text">Experiência</span></div>
+    <h2 class="section-title reveal">Trajetória Profissional</h2>
+    <p class="section-desc reveal">Experiência consolidada em IT Operations, suporte técnico e infraestrutura em empresas internacionais em Portugal e no Brasil.</p>
+    <div class="exp-list">
+
+      <!-- Van Ameyde -->
+      <div class="exp-card reveal">
+        <div class="exp-header">
+          <div class="exp-company-icon" style="background:var(--pink-light);color:var(--pink-dark);">VA</div>
+          <div style="flex:1">
+            <div class="exp-title">Service Desk Coordinator Trainee</div>
+            <div class="exp-company">Van Ameyde Systems</div>
+            <div class="exp-meta">Lisboa, Portugal · Híbrido</div>
+          </div>
+          <span class="exp-period">Out 2024 — Atual</span>
+        </div>
+        <div class="exp-activities">
+          <div class="exp-activity">Coordenação do Service Desk, incluindo distribuição de tickets, organização de workflows e monitorização de SLA/KPI.</div>
+          <div class="exp-activity">Gestão de identidades e acessos no Microsoft Entra ID, com configuração de políticas de Acesso Condicional.</div>
+          <div class="exp-activity">Implementação e gestão de aplicações via Microsoft Intune e configuração do Windows Autopilot para provisionamento de dispositivos.</div>
+          <div class="exp-activity">Suporte L1/L2 em Microsoft 365 (gestão de utilizadores, acessos e resolução de incidentes).</div>
+          <div class="exp-activity">Aplicação de boas práticas de segurança no controlo de acessos, gestão de incidentes e desenvolvimento da base de conhecimento.</div>
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag">Microsoft Entra ID</span>
+          <span class="exp-tag">Intune</span>
+          <span class="exp-tag exp-tag-blue">Windows Autopilot</span>
+          <span class="exp-tag exp-tag-blue">Microsoft 365</span>
+          <span class="exp-tag exp-tag-yellow">SLA / KPI</span>
+          <span class="exp-tag exp-tag-yellow">ITSM</span>
+        </div>
+      </div>
+
+      <!-- Diebold Nixdorf -->
+      <div class="exp-card reveal">
+        <div class="exp-header">
+          <div class="exp-company-icon" style="background:var(--blue-light);color:var(--blue-dark);">DN</div>
+          <div style="flex:1">
+            <div class="exp-title">Field Engineer Technician</div>
+            <div class="exp-company">Diebold Nixdorf</div>
+            <div class="exp-meta">Lisboa, Portugal · Híbrido</div>
+          </div>
+          <span class="exp-period">Jul 2023 — Jul 2024</span>
+        </div>
+        <div class="exp-activities">
+          <div class="exp-activity">Instalação, manutenção e reparação de equipamentos no cliente, incluindo ATMs, sistemas de automação comercial e terminais.</div>
+          <div class="exp-activity">Diagnóstico técnico, identificação de falhas e substituição de componentes defeituosos.</div>
+          <div class="exp-activity">Monitorização de métricas de desempenho e garantia de conformidade técnica para clientes corporativos.</div>
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag exp-tag-blue">Suporte Técnico</span>
+          <span class="exp-tag exp-tag-blue">Hardware</span>
+          <span class="exp-tag exp-tag-yellow">ATMs & Terminais</span>
+        </div>
+      </div>
+
+      <!-- ALSA -->
+      <div class="exp-card reveal">
+        <div class="exp-header">
+          <div class="exp-company-icon" style="background:var(--yellow-light);color:var(--yellow-dark);">AL</div>
+          <div style="flex:1">
+            <div class="exp-title">IT Technical Operations</div>
+            <div class="exp-company">ALSA</div>
+            <div class="exp-meta">Lisboa, Portugal · Presencial</div>
+          </div>
+          <span class="exp-period">Ago 2022 — Jul 2023</span>
+        </div>
+        <div class="exp-activities">
+          <div class="exp-activity">Participação no planeamento, implementação e go-live do projeto de sistemas embarcados de mobilidade urbana para a Zona 4 de transportes, em parceria com a Carris Metropolitana.</div>
+          <div class="exp-activity">Atuação como ponto de comunicação técnica e operacional entre as equipas de Portugal e Espanha, garantindo alinhamento e continuidade do projeto.</div>
+          <div class="exp-activity">Gestão de infraestrutura de TI com foco em Google Workspace, planeamento de redes e centros de dados.</div>
+          <div class="exp-activity">Implementação de políticas de governação (ITIL, ISO 27001) e resposta a incidentes críticos de operação.</div>
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag exp-tag-yellow">Sistemas Embarcados</span>
+          <span class="exp-tag exp-tag-yellow">Mobilidade Urbana</span>
+          <span class="exp-tag">Google Workspace</span>
+          <span class="exp-tag exp-tag-blue">ITIL</span>
+          <span class="exp-tag exp-tag-blue">ISO 27001</span>
+        </div>
+      </div>
+
+      <!-- Olisipo -->
+      <div class="exp-card reveal">
+        <div class="exp-header">
+          <div class="exp-company-icon" style="background:var(--pink-light);color:var(--pink-dark);">OL</div>
+          <div style="flex:1">
+            <div class="exp-title">Service Desk — Nível Médio</div>
+            <div class="exp-company">Olisipo</div>
+            <div class="exp-meta">Lisboa, Portugal · Presencial</div>
+          </div>
+          <span class="exp-period">Jun 2022 — Ago 2022</span>
+        </div>
+        <div class="exp-activities">
+          <div class="exp-activity">Suporte técnico remoto a utilizadores finais, resolução de incidentes de hardware, software e rede via tickets, email e chat.</div>
+          <div class="exp-activity">Gestão de tickets de serviço em ferramentas ITSM, assegurando conformidade com SLAs e documentação de soluções.</div>
+          <div class="exp-activity">Liderança da migração de workstations para ambiente cloud, garantindo transição sem impacto operacional.</div>
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag exp-tag-blue">Active Directory</span>
+          <span class="exp-tag exp-tag-blue">ITSM</span>
+          <span class="exp-tag exp-tag-yellow">Migração Cloud</span>
+        </div>
+      </div>
+
+      <!-- MacRepair -->
+      <div class="exp-card reveal">
+        <div class="exp-header">
+          <div class="exp-company-icon" style="background:var(--green-light);color:var(--green-dark);">MR</div>
+          <div style="flex:1">
+            <div class="exp-title">Técnico de Suporte em TI</div>
+            <div class="exp-company">MacRepair</div>
+            <div class="exp-meta">Natal, Rio Grande do Norte · Brasil</div>
+          </div>
+          <span class="exp-period">Fev 2014 — Jun 2022</span>
+        </div>
+        <div class="exp-activities">
+          <div class="exp-activity">Implementação e administração de Active Directory para gestão centralizada de utilizadores e políticas de acesso.</div>
+          <div class="exp-activity">Desenvolvimento e configuração de sistema de tickets interno para otimização do atendimento e controlo de chamados.</div>
+          <div class="exp-activity">Gestão de infraestrutura de rede, incluindo cabeamento estruturado, configuração de servidores e equipamentos de rede.</div>
+          <div class="exp-activity">Consultoria e prestação de serviços de TI para empresas clientes, abrangendo suporte técnico e melhoria de processos internos.</div>
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag">Active Directory</span>
+          <span class="exp-tag exp-tag-blue">Infraestrutura de Redes</span>
+          <span class="exp-tag exp-tag-blue">Servidores</span>
+          <span class="exp-tag exp-tag-yellow">Consultoria TI</span>
         </div>
       </div>
 
